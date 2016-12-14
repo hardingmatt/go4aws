@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 )
@@ -63,8 +64,14 @@ func bucketExists() bool {
 	fmt.Println("bucketExists")
 
 	_, err := service.HeadBucket(createHeadBucketInput())
+	fmt.Println(err)
 
-	return err == nil
+	if err == nil {
+		return true
+	}
+	statusCode := err.(awserr.RequestFailure).StatusCode()
+	validStatusCodes := map[int]bool{301: true, 403: true}
+	return validStatusCodes[statusCode]
 }
 
 func deleteBucket() {
