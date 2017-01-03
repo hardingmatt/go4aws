@@ -17,7 +17,7 @@ func main() {
 		createTopic(topicName)
 	}
 
-	publishTextMessage("+18608087099", "Test")
+	publishTextMessage("+12025550156", "Test")
 	publishToTopic(topicName, "Test")
 
 	deleteTopic(topicName)
